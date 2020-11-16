@@ -5,6 +5,7 @@ using CourseManager.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,8 +19,8 @@ namespace CourseManager.Controllers
 
         public HomeController(ICourseRepository courseRepository, UserManager<UserModel> userManager)
         {
-            this.courseRepository = courseRepository;
-            this.userManager = userManager;
+            this.courseRepository = courseRepository ?? throw new ArgumentNullException(nameof(courseRepository)); 
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager)); 
         }
 
         [Authorize]
@@ -42,6 +43,11 @@ namespace CourseManager.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCourse(CourseViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             var currentUser = await userManager.GetUserAsync(User);
 
             if (ModelState.IsValid)
@@ -64,6 +70,11 @@ namespace CourseManager.Controllers
         [HttpGet]
         public IActionResult UpdateCourse(int courseId)
         {
+            if (courseId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(courseId));
+            }
+
             CourseModel course = courseRepository.GetCourse(courseId);
             var model = new CourseViewModel()
             {
@@ -82,6 +93,11 @@ namespace CourseManager.Controllers
         [HttpPost]
         public IActionResult UpdateCourse(CourseViewModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             if (ModelState.IsValid)
             {
                 var course = new CourseModel()
@@ -103,6 +119,11 @@ namespace CourseManager.Controllers
 
         public IActionResult DeleteCourse(int courseId)
         {
+            if (courseId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(courseId));
+            }
+
             courseRepository.Delete(courseId);
 
             return RedirectToAction("Index", "Home");
