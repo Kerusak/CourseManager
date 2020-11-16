@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Course Manager";
+}
+
+@model CourseViewModel
+
+<div class="container d-flex">
+    <div class="col-6">
+        @if (Model.Courses != null && Model.Courses.Count > 0)
+        {
+            @foreach (CourseModel course in Model.Courses)
+            {
+                var timeStart = course.TimeStart.GetDescription();
+                var timeEnd = course.TimeEnd.GetDescription();
+                var dateStart = course.DateStart.GetDescription();
+
+                <div class="card course-card mb-3"
+                     data-time-start="@((int)course.TimeStart)"
+                     data-time-end="@((int)course.TimeEnd)"
+                     data-date-start="@((int)course.DateStart)">
+                    <div class="card-body">
+                        <h5 class="card-title">@course.Title</h5>
+                        <p class="card-text">@course.Description</p>
+                        @if (course.Price == 0)
+                        {
+                            <p class="card-text">Цена: Бесплатно</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">Цена: @course.Price $</p>
+                        }
+                        <p class="card-text">Время проведения: @timeStart - @timeEnd</p>
+                        <p class="card-text">@dateStart</p>
+                        <a href="@Url.Action("UpdateCourse", "Home", new { course.CourseID })" class="btn btn-warning">Редактировать курс</a>
+                        <a href="@Url.Action("DeleteCourse", "Home", new { course.CourseID })" class="btn btn-danger">Удалить курс</a>
+                    </div>
+                    @if (course.User != null)
+                    {
+                        <div class="card-footer">
+                            <small class="text-muted">Создано: @course.User.UserName</small>
+                        </div>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                <p>Календарь событий пока пуст</p>
+                <a href="@Url.Action("CreateCourse", "Home")" class="btn btn-primary">Создайте первый курс</a>
+            </div>
+        }
+    </div>
+    <div class="col-6">
+        <table class="table table-bordered table-dark sticky" id="table-time">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Пн</th>
+                    <th scope="col">Вт</th>
+                    <th scope="col">Ср</th>
+                    <th scope="col">Чт</th>
+                    <th scope="col">Пт</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">9:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">10:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">11:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">12:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">13:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">14:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">15:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">16:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">17:00</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

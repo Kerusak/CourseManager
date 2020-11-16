@@ -1,0 +1,38 @@
+﻿@model CourseViewModel
+
+<h1>Редактирование курса</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" asp-action="UpdateCourse" asp-controller="Home">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.CourseID" />
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeStart"></label>
+                <select asp-for="TimeStart" asp-items="Html.GetEnumSelectList<CourseTime>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeEnd"></label>
+                <select asp-for="TimeEnd" asp-items="Html.GetEnumSelectList<CourseTime>()"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateStart"></label>
+                <select asp-for="DateStart" asp-items="Html.GetEnumSelectList<CourseDate>()"></select>
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+</div>
